@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ansh Singh — Backend + AI Engineer</title>
+<meta name="description" content="Backend Engineer — Python, Django, FastAPI, Kafka, Redis, GenAI/RAG. Ex-Jio Finance platform. Portfolio of production-grade backend and AI projects.">
+<style>
+  :root{
+    --bg:#0b0f14; --bg2:#111722; --card:#151d2b; --border:#233046;
+    --text:#e6edf3; --muted:#8b98ab; --accent:#4fd1c5; --accent2:#7aa2f7;
+    --chip:#1d2a3f; --chip-text:#9fd6ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .container{max-width:1000px;margin:0 auto;padding:0 24px}
+
+  /* NAV */
+  nav{position:sticky;top:0;background:rgba(11,15,20,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:10}
+  .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;max-width:1000px;margin:0 auto}
+  .logo{font-weight:800;letter-spacing:.5px}
+  .logo span{color:var(--accent)}
+  .nav-links a{color:var(--muted);margin-left:22px;font-size:.95rem}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+
+  /* HERO */
+  header{padding:90px 0 70px;background:radial-gradient(ellipse 80% 60% at 60% -10%,rgba(79,209,197,.12),transparent)}
+  .eyebrow{color:var(--accent);font-weight:600;font-size:.95rem;margin-bottom:12px}
+  h1{font-size:clamp(2.2rem,5.5vw,3.4rem);line-height:1.12;margin-bottom:16px}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tagline{color:var(--muted);font-size:1.15rem;max-width:640px;margin-bottom:28px}
+  .btn{display:inline-block;padding:11px 22px;border-radius:8px;font-weight:600;margin-right:12px;margin-bottom:10px;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px);text-decoration:none}
+  .btn-primary{background:var(--accent);color:#062a26}
+  .btn-ghost{border:1px solid var(--border);color:var(--text)}
+  .hero-stats{display:flex;gap:36px;margin-top:38px;flex-wrap:wrap}
+  .stat b{font-size:1.5rem;color:var(--accent)}
+  .stat div{color:var(--muted);font-size:.9rem}
+
+  /* SECTIONS */
+  section{padding:64px 0;border-top:1px solid var(--border)}
+  h2{font-size:1.7rem;margin-bottom:8px}
+  h2::before{content:"// ";color:var(--accent);font-weight:400}
+  .section-sub{color:var(--muted);margin-bottom:36px}
+
+  /* SKILLS */
+  .skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .skill-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+  .skill-card h3{font-size:1rem;color:var(--accent2);margin-bottom:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{background:var(--chip);color:var(--chip-text);font-size:.78rem;padding:4px 10px;border-radius:99px;border:1px solid var(--border)}
+
+  /* PROJECTS */
+  .project{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:30px;transition:border-color .2s}
+  .project:hover{border-color:var(--accent)}
+  .project-img{width:100%;height:280px;object-fit:cover;object-position:top;display:block;background:var(--bg2)}
+  .img-placeholder{width:100%;height:220px;background:repeating-linear-gradient(45deg,var(--bg2),var(--bg2) 12px,var(--card) 12px,var(--card) 24px);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;border-bottom:1px solid var(--border)}
+  .project-body{padding:26px}
+  .project-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .project-body h3{font-size:1.25rem}
+  .timeline-tag{color:var(--muted);font-size:.85rem;border:1px solid var(--border);padding:3px 10px;border-radius:99px}
+  .status{font-size:.75rem;padding:3px 10px;border-radius:99px;font-weight:700;letter-spacing:.4px}
+  .status.live{background:rgba(79,209,197,.15);color:var(--accent)}
+  .status.wip{background:rgba(122,162,247,.15);color:var(--accent2)}
+  .project-body p{color:var(--muted);margin:10px 0 14px}
+  .project-body ul{margin:0 0 16px 18px;color:var(--muted)}
+  .project-body li{margin-bottom:6px}
+  .project-links a{margin-right:18px;font-weight:600}
+
+  /* EXPERIENCE TIMELINE */
+  .timeline{position:relative;margin-left:12px;padding-left:28px;border-left:2px solid var(--border)}
+  .t-item{position:relative;margin-bottom:38px}
+  .t-item::before{content:"";position:absolute;left:-37px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+  .t-date{color:var(--accent);font-size:.85rem;font-weight:600}
+  .t-item h3{margin:4px 0 2px}
+  .t-item h4{color:var(--muted);font-weight:500;margin-bottom:8px}
+  .t-item ul{margin-left:18px;color:var(--muted)}
+  .t-item li{margin-bottom:6px}
+
+  /* CONTACT */
+  .contact-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:36px;text-align:center}
+  footer{padding:30px 0;text-align:center;color:var(--muted);font-size:.85rem}
+
+  @media(max-width:640px){.nav-links a{margin-left:12px;font-size:.85rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">ansh<span>.dev</span></div>
+    <div class="nav-links">
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="eyebrow">Hi, I'm Ansh Singh 👋</div>
+    <h1>I build <span class="grad">fintech-grade backend systems</span><br>with LLMs bolted on.</h1>
+    <p class="tagline">Backend Engineer — Python, Django, FastAPI, Kafka, Redis. I shipped loan-origination systems for Jio Finance that cut approval time from 2 days to 3 hours, and I build production RAG &amp; AI-agent systems.</p>
+    <a class="btn btn-primary" href="AndrewResumeWorkshop__3_ (3).pdf" target="_blank">View Resume</a>
+    <a class="btn btn-ghost" href="https://github.com/ansh7singh" target="_blank">GitHub</a>
+    <a class="btn btn-ghost" href="https://linkedin.com/in/ansh7singh" target="_blank">LinkedIn</a>
+    <div class="hero-stats">
+      <div class="stat"><b>25+</b><div>production APIs shipped</div></div>
+      <div class="stat"><b>60%</b><div>manual review effort removed</div></div>
+      <div class="stat"><b>2d → 3h</b><div>loan approval turnaround</div></div>
+      <div class="stat"><b>99.9%</b><div>uptime maintained</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="skills">
+  <div class="container">
+    <h2>Skills</h2>
+    <p class="section-sub">The tools I use to ship production systems.</p>
+    <div class="skill-grid">
+      <div class="skill-card"><h3>Languages</h3>
+        <div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">C++</span><span class="chip">Ruby</span><span class="chip">Bash</span></div>
+      </div>
+      <div class="skill-card"><h3>Backend</h3>
+        <div class="chips"><span class="chip">Django</span><span class="chip">DRF</span><span class="chip">FastAPI</span><span class="chip">Ruby on Rails</span><span class="chip">REST API Design</span><span class="chip">JWT / RBAC</span><span class="chip">WebSockets</span><span class="chip">Rate Limiting</span></div>
+      </div>
+      <div class="skill-card"><h3>Data &amp; Infrastructure</h3>
+        <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">Kafka</span><span class="chip">Celery</span><span class="chip">Docker</span><span class="chip">Nginx</span><span class="chip">GitHub Actions</span><span class="chip">Linux</span></div>
+      </div>
+      <div class="skill-card"><h3>Generative AI</h3>
+        <div class="chips"><span class="chip">RAG</span><span class="chip">Embeddings</span><span class="chip">pgvector / FAISS</span><span class="chip">LangChain</span><span class="chip">LangGraph</span><span class="chip">Ollama / Llama 3</span><span class="chip">Gemini</span><span class="chip">Function Calling</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <h2>Projects</h2>
+    <p class="section-sub">Production-style systems, not tutorials. Each repo ships with docker-compose, tests, and an architecture diagram.</p>
+
+    <!-- PROJECT: LedgerFlow -->
+    <article class="project">
+      <!-- Replace placeholder with: <img class="project-img" src="assets/ledgerflow.png" alt="LedgerFlow dashboard"> -->
+      <!-- <div class="img-placeholder">📸 Add screenshot: assets/ledgerflow.png (Grafana dashboard / admin UI)</div> -->
+      <div class="project-body">
+        <div class="project-top">
+          <h3>LedgerFlow — Real-time Loan Processing Platform</h3>
+          <span class="status wip">IN PROGRESS</span>
+          <span class="timeline-tag">Jul 2026 — present</span>
+        </div>
+        <p>A mini fintech backend: loan applications flow through a configurable rule engine, async KYC verification, and a state machine — with live admin-editable rules. Publicly demonstrates the architecture I built for Jio Finance.</p>
+        <ul>
+          <li>Rule engine with Redis-cached, admin-editable eligibility rules (sub-100ms evaluation)</li>
+          <li>Kafka event pipeline with retries + dead-letter topics; idempotency keys on all writes</li>
+          <li>Load-tested with Locust; Prometheus + Grafana observability</li>
+        </ul>
+        <div class="chips" style="margin-bottom:16px"><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">Kafka</span><span class="chip">Redis</span><span class="chip">Celery</span><span class="chip">Docker</span></div>
+        <div class="project-links">
+          <a href="https://github.com/ansh7singh/ledgerflow" target="_blank">GitHub →</a>
+          <a href="#" target="_blank">Live Demo →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT: MyPdfAgent -->
+    <article class="project">
+      <!-- Replace placeholder with: <img class="project-img" src="assets/mypdfagent.png" alt="MyPdfAgent in action"> -->
+      <!-- <div class="img-placeholder">📸 Add screenshot: assets/mypdfagent.png (before/after page reconstruction)</div> -->
+      <div class="project-body">
+        <div class="project-top">
+          <h3>MyPdfAgent — AI PDF Reconstruction</h3>
+          <span class="status live">COMPLETE</span>
+          <span class="timeline-tag">2025</span>
+        </div>
+        <p>Reorders shuffled multi-page documents using OCR, embedding similarity, and LLM reasoning — fully local inference so sensitive documents never leave the machine.</p>
+        <ul>
+          <li>Hybrid AI + rule-based ordering cut reconstruction time by 70%</li>
+          <li>100% local LLM inference via Ollama (Llama 3) for privacy</li>
+          <li>Embedding-based page-similarity pipeline</li>
+        </ul>
+        <div class="chips" style="margin-bottom:16px"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">OCR</span><span class="chip">Embeddings</span><span class="chip">Ollama / Llama 3</span></div>
+        <div class="project-links">
+          <a href="https://github.com/ansh7singh/mypdfagent" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT: PythonGeneratorAgent -->
+    <article class="project">
+      <!-- Replace placeholder with: <img class="project-img" src="assets/pygen.png" alt="PythonGeneratorAgent demo"> -->
+      <!-- <div class="img-placeholder">📸 Add screenshot/GIF: assets/pygen.png (code generation demo)</div> -->
+      <div class="project-body">
+        <div class="project-top">
+          <h3>PythonGeneratorAgent — AI Coding Assistant</h3>
+          <span class="status live">COMPLETE</span>
+          <span class="timeline-tag">2025</span>
+        </div>
+        <p>An AI coding assistant with a FastAPI backend: generates, executes, and visualizes Python code using Gemini 2.0 function calling with real-time file operations.</p>
+        <ul>
+          <li>Gemini 2.0 function-calling loop for code generation and tool use</li>
+          <li>Sandboxed code execution with timeouts</li>
+          <li>Real-time file operations and function-call visualization</li>
+        </ul>
+        <div class="chips" style="margin-bottom:16px"><span class="chip">FastAPI</span><span class="chip">Gemini 2.0</span><span class="chip">Function Calling</span><span class="chip">Python</span></div>
+        <div class="project-links">
+          <a href="https://github.com/ansh7singh/pythongeneratoragent" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT: Resume Screening -->
+    <article class="project">
+      <!-- Replace placeholder with: <img class="project-img" src="assets/screening.png" alt="Resume screening platform"> -->
+      <!-- <div class="img-placeholder">📸 Add screenshot: assets/screening.png (matching results UI/API response)</div> -->
+      <div class="project-body">
+        <div class="project-top">
+          <h3>AI Resume Screening Platform</h3>
+          <span class="status live">COMPLETE</span>
+          <span class="timeline-tag">Jan 2026</span>
+        </div>
+        <p>SaaS-style platform for automated resume screening and candidate–job matching using vector similarity search, with event-driven ingestion pipelines for scale.</p>
+        <ul>
+          <li>Embedding-based candidate–job relevance ranking</li>
+          <li>Event-driven ingestion pipeline for bulk resume processing</li>
+          <li>Vector similarity search over embeddings</li>
+        </ul>
+        <div class="chips" style="margin-bottom:16px"><span class="chip">FastAPI</span><span class="chip">Embeddings</span><span class="chip">Vector DB</span><span class="chip">Event-Driven</span></div>
+        <div class="project-links">
+          <a href="https://github.com/ansh7singh/resume-screening" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <h2>Experience</h2>
+    <p class="section-sub">Where I've shipped.</p>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-date">Jan 2025 — Jul 2026</div>
+        <h3>Backend Developer</h3>
+        <h4>Bits Flow Technology Pvt. Ltd. — Fintech &amp; Health-tech</h4>
+        <ul>
+          <li><b>Finfinity (Jio Finance, PFL):</b> owned 25+ production Django REST APIs (JWT, RBAC, rate limiting) at 99.9% uptime; Kafka pipelines for third-party KYC cut onboarding time 35%.</li>
+          <li><b>Business Rule Engine:</b> designed a configurable decision engine automating 15+ eligibility checks — manual review down 60%, approvals from 2 days to 3 hours.</li>
+          <li><b>PranaAI:</b> architected and shipped a Ruby on Rails health-tech MVP in 2 months with AI-driven recommendations.</li>
+        </ul>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2021 — 2025</div>
+        <h3>B.E. — Thapar Institute of Engineering and Technology</h3>
+        <h4>Coursework: Data Structures, Algorithms, ML, Deep Learning, OS</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-box">
+      <h2 style="margin-bottom:10px">Let's talk</h2>
+      <p style="color:var(--muted);margin-bottom:22px">Open to Backend / AI Engineer roles — India &amp; remote.</p>
+      <a class="btn btn-primary" href="mailto:ansh20062003@gmail.com">ansh20062003@gmail.com</a>
+      <a class="btn btn-ghost" href="https://github.com/ansh7singh" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/ansh7singh" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Ansh Singh · Built with plain HTML/CSS, deployed on Vercel</footer>
+
+</body>
+</html>
