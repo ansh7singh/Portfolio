@@ -70,6 +70,25 @@
   .project-body li{margin-bottom:6px}
   .project-links a{margin-right:18px;font-weight:600}
 
+  /* FUNDAMENTALS */
+  .fund-sub{color:var(--accent2);font-size:1.15rem;margin:38px 0 6px;font-weight:700}
+  .fund-sub::before{content:"# ";color:var(--accent);font-weight:400}
+  .fund-note{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .concept-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;transition:border-color .2s}
+  .concept-card:hover{border-color:var(--accent)}
+  .concept-card h4{color:var(--text);margin-bottom:6px;font-size:1rem}
+  .concept-card h4 span{color:var(--accent);font-size:.8rem;font-weight:600}
+  .concept-card p{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+  .concept-card pre{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:.72rem;color:var(--chip-text);overflow-x:auto;line-height:1.55;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  details.qa{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+  details.qa:hover{border-color:var(--accent)}
+  details.qa summary{cursor:pointer;font-weight:600;color:var(--text)}
+  details.qa summary span{color:var(--muted);font-weight:400;font-size:.85rem}
+  details.qa p{color:var(--muted);font-size:.92rem;margin-top:10px}
+  details.qa ul{margin:10px 0 4px 18px;color:var(--muted);font-size:.92rem}
+  details.qa li{margin-bottom:5px}
+
   /* EXPERIENCE TIMELINE */
   .timeline{position:relative;margin-left:12px;padding-left:28px;border-left:2px solid var(--border)}
   .t-item{position:relative;margin-bottom:38px}
@@ -95,6 +114,7 @@
     <div class="nav-links">
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
+      <a href="#fundamentals">Fundamentals</a>
       <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
     </div>
@@ -232,7 +252,228 @@
         </ul>
         <div class="chips" style="margin-bottom:16px"><span class="chip">FastAPI</span><span class="chip">Embeddings</span><span class="chip">Vector DB</span><span class="chip">Event-Driven</span></div>
         <div class="project-links">
-          <a href="https://github.com/ansh7singh/resume-screening" target="_blank">GitHub →</a>
+          <a href="https://github.com/ansh7singh/JobSaaS" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="fundamentals">
+  <div class="container">
+    <h2>CS Fundamentals</h2>
+    <p class="section-sub">Notes on the core concepts I use daily — OOP, low-level design, networking, and operating systems.</p>
+
+    <!-- ===== OOP ===== -->
+    <div class="fund-sub">OOP — The Four Pillars</div>
+    <p class="fund-note">Object-oriented design as I apply it in Django/FastAPI codebases.</p>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Encapsulation</h4>
+        <p>Bundle data with the methods that operate on it, and hide internal state behind a controlled interface — invalid states become unrepresentable.</p>
+        <pre>class Account:
+    def __init__(self):
+        self.__balance = 0   # hidden
+
+    def deposit(self, amt):
+        if amt &gt; 0:
+            self.__balance += amt
+
+    @property
+    def balance(self):
+        return self.__balance</pre>
+      </div>
+      <div class="concept-card">
+        <h4>Abstraction</h4>
+        <p>Expose <i>what</i> a component does, hide <i>how</i>. Callers depend on an interface, not on Stripe/Razorpay internals.</p>
+        <pre>from abc import ABC, abstractmethod
+
+class PaymentGateway(ABC):
+    @abstractmethod
+    def pay(self, amount): ...
+
+# swap providers without
+# touching business logic</pre>
+      </div>
+      <div class="concept-card">
+        <h4>Inheritance</h4>
+        <p>An <b>is-a</b> relationship for sharing behavior. Keep hierarchies shallow; prefer composition when the relationship isn't truly is-a.</p>
+        <pre>class BaseNotifier:
+    def send(self, msg): ...
+
+class EmailNotifier(BaseNotifier): ...
+class SmsNotifier(BaseNotifier): ...</pre>
+      </div>
+      <div class="concept-card">
+        <h4>Polymorphism</h4>
+        <p>One interface, many behaviors — via method overriding or Python duck typing. The caller never branches on type.</p>
+        <pre>def notify_all(notifiers, msg):
+    for n in notifiers:
+        n.send(msg)
+# same call, different behavior
+# per concrete class</pre>
+      </div>
+    </div>
+
+    <!-- ===== LLD ===== -->
+    <div class="fund-sub">Low-Level Design — Class Relationships</div>
+    <p class="fund-note">The 5 relationships every UML diagram is built from, ordered strongest → weakest coupling.</p>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Inheritance <span>is-a</span></h4>
+        <p><b>Car is a Vehicle.</b> Subclass inherits contract + behavior. Strongest coupling — changes in the base ripple down.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Composition <span>owns-a</span></h4>
+        <p><b>House owns Rooms.</b> Part cannot outlive the whole — delete the house, rooms go with it. UML: filled diamond.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Aggregation <span>has-a</span></h4>
+        <p><b>Team has Players.</b> Whole-part, but parts live independently — a player survives the team disbanding. UML: hollow diamond.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Association <span>knows-a</span></h4>
+        <p><b>Doctor knows Patient.</b> Two independent objects hold references to each other; no ownership either way.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Dependency <span>uses-a</span></h4>
+        <p><b>OrderService uses PaymentGateway</b> as a method parameter. Weakest, method-level coupling — ideal for injection.</p>
+      </div>
+    </div>
+
+    <div class="fund-sub">Design Patterns I Reach For</div>
+    <div style="margin-bottom:8px">
+      <details class="qa">
+        <summary>Strategy <span>— swap algorithms at runtime</span></summary>
+        <p>Define a family of interchangeable algorithms behind one interface. This is the backbone of the Business Rule Engine I built at Jio Finance: each eligibility check is a strategy, so business teams change rules without code deployments.</p>
+      </details>
+      <details class="qa">
+        <summary>Observer <span>— publish/subscribe events</span></summary>
+        <p>Subjects notify subscribers on state change without knowing who they are. At system scale this is Kafka: loan-status events published once, consumed independently by KYC, notifications, and audit services.</p>
+      </details>
+      <details class="qa">
+        <summary>Factory <span>— centralize object creation</span></summary>
+        <p>Callers ask for "a loan product of type X" and get the right concrete class without knowing it exists. Keeps <code>if/elif</code> type-switching out of business logic and makes adding new types a one-file change.</p>
+      </details>
+      <details class="qa">
+        <summary>Singleton <span>— exactly one instance</span></summary>
+        <p>One shared instance with global access — DB connection pools, config objects. In Python, a module-level instance is usually the cleanest singleton; use it sparingly since it hides dependencies.</p>
+      </details>
+      <details class="qa">
+        <summary>Decorator <span>— layer behavior on without modifying code</span></summary>
+        <p>Wrap an object/function to add responsibilities dynamically. Python's <code>@decorator</code> syntax makes this native — how I implement rate limiting, auth checks, and retry logic as reusable middleware.</p>
+      </details>
+      <details class="qa">
+        <summary>Builder <span>— step-by-step construction</span></summary>
+        <p>Construct complex objects piece by piece instead of a 12-argument constructor. Useful for assembling loan applications where fields arrive across multiple workflow steps.</p>
+      </details>
+    </div>
+
+    <div class="fund-sub">Classic LLD Problems</div>
+    <div>
+      <details class="qa">
+        <summary>Parking Lot <span>— composition + strategy</span></summary>
+        <ul>
+          <li><b>Entities:</b> ParkingLot → Floors → Spots (composition); Vehicle → Car/Bike/Truck (inheritance).</li>
+          <li><b>Spot allocation:</b> a SpotAllocationStrategy (nearest-first, compact-first) — Strategy pattern.</li>
+          <li><b>Fees:</b> FeeCalculator per vehicle type + duration; Ticket ties vehicle, spot, and entry time together.</li>
+        </ul>
+      </details>
+      <details class="qa">
+        <summary>Rate Limiter <span>— token bucket vs sliding window</span></summary>
+        <ul>
+          <li><b>Token bucket:</b> refill N tokens/sec, allow bursts up to bucket size — my default choice.</li>
+          <li><b>Sliding window log/counter:</b> smoother limits, more memory.</li>
+          <li><b>Distributed:</b> counters in Redis with atomic Lua scripts — same approach I used for API rate limiting in production.</li>
+        </ul>
+      </details>
+      <details class="qa">
+        <summary>Splitwise <span>— strategy over split types</span></summary>
+        <ul>
+          <li><b>Entities:</b> User, Group, Expense, Split; Split → EqualSplit / ExactSplit / PercentSplit (Strategy).</li>
+          <li><b>Balance sheet:</b> pairwise net balances per user; validation per split type.</li>
+          <li><b>Simplify debts:</b> greedy max-debtor → max-creditor matching to minimize transactions.</li>
+        </ul>
+      </details>
+      <details class="qa">
+        <summary>Notification System <span>— observer + factory</span></summary>
+        <ul>
+          <li><b>Channel factory:</b> Email/SMS/Push notifiers behind one interface.</li>
+          <li><b>Observer:</b> domain events trigger notifications without coupling business logic to channels.</li>
+          <li><b>Reliability:</b> queue + retry with exponential backoff and dead-letter handling — mirrors my Kafka pipelines.</li>
+        </ul>
+      </details>
+    </div>
+
+    <!-- ===== NETWORKING ===== -->
+    <div class="fund-sub">Networking</div>
+    <p class="fund-note">What actually happens between a client and my APIs.</p>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>OSI &amp; TCP/IP Models</h4>
+        <p>7 conceptual layers (OSI) vs the practical 4-layer TCP/IP stack: Application (HTTP/DNS) → Transport (TCP/UDP) → Internet (IP) → Link. Debugging = knowing which layer is lying.</p>
+      </div>
+      <div class="concept-card">
+        <h4>TCP vs UDP</h4>
+        <p>TCP: connection-oriented, ordered, reliable (retransmission, congestion control) — APIs, databases. UDP: fire-and-forget, low latency — DNS, streaming, gaming.</p>
+      </div>
+      <div class="concept-card">
+        <h4>3-Way Handshake &amp; TLS</h4>
+        <p>SYN → SYN-ACK → ACK establishes a TCP connection; TLS handshake on top negotiates keys for HTTPS. Connection reuse (keep-alive, pooling) is why my services don't pay this cost per request.</p>
+      </div>
+      <div class="concept-card">
+        <h4>HTTP &amp; REST</h4>
+        <p>Stateless request/response: methods (GET/POST/PUT/PATCH/DELETE), status codes (2xx/4xx/5xx), idempotency. REST maps resources to URLs — the contract behind my 25+ production APIs.</p>
+      </div>
+      <div class="concept-card">
+        <h4>DNS Resolution</h4>
+        <p>Browser cache → OS cache → recursive resolver → root → TLD → authoritative nameserver. TTLs control propagation — why DNS changes "take time".</p>
+      </div>
+      <div class="concept-card">
+        <h4>WebSockets &amp; Load Balancing</h4>
+        <p>WebSockets upgrade HTTP to a persistent full-duplex channel for real-time updates. Load balancers route at L4 (TCP) or L7 (HTTP-aware) — Nginx does L7 in my deployments.</p>
+      </div>
+    </div>
+
+    <!-- ===== OS ===== -->
+    <div class="fund-sub">Operating Systems</div>
+    <p class="fund-note">Processes, threads, and scheduling — the layer under every backend I ship.</p>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Processes vs Threads</h4>
+        <p>A process owns its address space; threads share one within a process — cheaper to create/switch, but shared state needs synchronization. Python's GIL is why I use multiprocessing (or Celery workers) for CPU-bound work and threads/async for I/O.</p>
+      </div>
+      <div class="concept-card">
+        <h4>CPU Scheduling</h4>
+        <p>FCFS (simple, convoy effect), SJF/SRTF (optimal avg wait, needs burst prediction), Round Robin (fair time slices — quantum size matters), Priority (starvation → aging), MLFQ (what real OSes approximate). Preemptive vs non-preemptive is the key axis.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Synchronization &amp; Deadlock</h4>
+        <p>Race conditions → mutex (one owner) vs semaphore (N permits). Deadlock needs all 4: mutual exclusion, hold-and-wait, no preemption, circular wait — break any one (e.g., lock ordering) to prevent it.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Context Switching &amp; IPC</h4>
+        <p>Switching saves/restores registers, stack, and page tables — pure overhead, so fewer, busier workers often beat many idle ones. IPC: pipes, shared memory, message queues — Kafka/Redis are the same ideas at distributed scale.</p>
+      </div>
+    </div>
+
+    <!-- PROJECT: OS Lab (planned) -->
+    <article class="project" style="margin-top:26px">
+      <div class="project-body">
+        <div class="project-top">
+          <h3>MiniShell + Scheduler Lab — OS Internals Project</h3>
+          <span class="status wip">PLANNED</span>
+          <span class="timeline-tag">2026</span>
+        </div>
+        <p>A hands-on OS project to back these notes with code: a Unix shell written in C plus a CPU-scheduling simulator.</p>
+        <ul>
+          <li>Shell: <code>fork()</code> / <code>exec()</code> / <code>wait()</code>, pipes, I/O redirection, signal handling (Ctrl-C), job control</li>
+          <li>Scheduler simulator: FCFS, SJF, Round Robin, and MLFQ with Gantt-chart visualization and avg wait/turnaround comparison</li>
+          <li>Thread-pool demo with mutexes and a deliberate (then fixed) deadlock</li>
+        </ul>
+        <div class="chips" style="margin-bottom:16px"><span class="chip">C</span><span class="chip">Linux</span><span class="chip">Syscalls</span><span class="chip">Processes / Threads</span><span class="chip">Scheduling</span></div>
+        <div class="project-links">
+          <a href="https://github.com/ansh7singh" target="_blank">GitHub →</a>
         </div>
       </div>
     </article>
